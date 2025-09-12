@@ -216,8 +216,8 @@ export default function ABTesting() {
                           {variant.content}
                         </p>
                         <div className="text-xs space-y-1">
-                          <div>CTR: {((variant.clicks / variant.impressions) * 100).toFixed(2)}%</div>
-                          <div>Conversions: {variant.conversions}</div>
+                          <div>CTR: {((variant.metrics.clicks / variant.metrics.impressions) * 100).toFixed(2)}%</div>
+                          <div>Conversions: {variant.metrics.conversions}</div>
                         </div>
                       </div>
                     ))}
