@@ -19,8 +19,6 @@ import {
   Sparkles,
   Play
 } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
-
 const platforms = [
   {
     name: "Instagram",
@@ -112,7 +110,22 @@ export default function PlatformOptimizer() {
   const platformAnalytics = mockAnalytics[selectedPlatform as keyof typeof mockAnalytics];
 
   return (
-    <AppLayout>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">Platform Optimizer</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              Optimize All Platforms
+            </Button>
+          </div>
+        </div>
+      </header>
+      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -372,6 +385,6 @@ export default function PlatformOptimizer() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }

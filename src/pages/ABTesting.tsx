@@ -16,8 +16,6 @@ import {
   Trophy,
   BarChart3
 } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
-
 const mockTests = [
   {
     id: 1,
@@ -84,7 +82,22 @@ export default function ABTesting() {
   };
 
   return (
-    <AppLayout>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">A/B Testing</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button className="gap-2">
+              <Plus className="w-4 h-4" />
+              Create New Test
+            </Button>
+          </div>
+        </div>
+      </header>
+      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -342,6 +355,6 @@ export default function ABTesting() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }

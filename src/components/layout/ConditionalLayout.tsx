@@ -22,7 +22,8 @@ export function ConditionalLayout({ children }: ConditionalLayoutProps) {
     "/regional",
     "/platform-optimizer",
     "/analytics",
-    "/settings"
+    "/settings",
+    "/ai-feedback"
   ];
 
   // Routes that should show admin sidebar

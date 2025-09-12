@@ -18,8 +18,6 @@ import {
   Trash2,
   Sparkles
 } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
-
 const mockPosts = [
   {
     id: 1,
@@ -112,7 +110,26 @@ export default function ContentCalendar() {
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   return (
-    <AppLayout>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">Content Calendar</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm" className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              AI Suggestions
+            </Button>
+            <Button size="sm" className="gap-2">
+              <Plus className="w-4 h-4" />
+              Create Post
+            </Button>
+          </div>
+        </div>
+      </header>
+      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -307,6 +324,6 @@ export default function ContentCalendar() {
           </Card>
         )}
       </div>
-    </AppLayout>
+    </div>
   );
 }

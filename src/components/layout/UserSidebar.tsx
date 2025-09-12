@@ -56,8 +56,8 @@ export function UserSidebar() {
           {!isCollapsed && (
             <span className="font-bold text-xl text-sidebar-foreground">BrandFlo</span>
           )}
+          <SidebarTrigger className="ml-auto" />
         </div>
-        <SidebarTrigger className="ml-auto" />
       </SidebarHeader>
 
       <SidebarContent>

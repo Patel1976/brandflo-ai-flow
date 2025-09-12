@@ -18,8 +18,6 @@ import {
   Wand2,
   Image as ImageIcon
 } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
-
 const platforms = [
   { name: "Instagram", icon: Instagram, selected: true },
   { name: "Facebook", icon: Facebook, selected: false },
@@ -87,7 +85,20 @@ export default function PostCreation() {
   };
 
   return (
-    <AppLayout>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">Create Post</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button variant="outline" size="sm">Save Draft</Button>
+            <Button variant="hero" size="sm">Post Now</Button>
+          </div>
+        </div>
+      </header>
+      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -320,6 +331,6 @@ export default function PostCreation() {
           </div>
         </div>
       </div>
-    </AppLayout>
+    </div>
   );
 }

@@ -16,8 +16,6 @@ import {
   BookOpen,
   Wand2
 } from "lucide-react";
-import { AppLayout } from "@/components/layout/AppLayout";
-
 const toneSliders = [
   { name: "Formal", value: [75], min: 0, max: 100, opposite: "Casual" },
   { name: "Professional", value: [85], min: 0, max: 100, opposite: "Playful" },
@@ -83,7 +81,22 @@ export default function BrandVoice() {
   };
 
   return (
-    <AppLayout>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-6">
+          <div className="flex items-center gap-4">
+            <h1 className="text-xl font-semibold">Brand Voice Tuning</h1>
+          </div>
+          <div className="flex items-center gap-3">
+            <Button className="gap-2">
+              <Sparkles className="w-4 h-4" />
+              Apply Voice Settings
+            </Button>
+          </div>
+        </div>
+      </header>
+      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -450,6 +463,6 @@ export default function BrandVoice() {
           </div>
         )}
       </div>
-    </AppLayout>
+    </div>
   );
 }
