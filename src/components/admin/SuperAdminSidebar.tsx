@@ -13,7 +13,12 @@ import {
   Lock,
   Search,
   Bell,
-  LogOut
+  LogOut,
+  Plus,
+  UserPlus,
+  TrendingUp,
+  ChevronDown,
+  ChevronRight
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -27,14 +32,18 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
   SidebarHeader,
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
 
 const superAdminItems = [
   { title: "Admin Dashboard", url: "/admin", icon: Shield },
-  { title: "MSP Management", url: "/admin/msp", icon: Building },
   { title: "User & Brand Management", url: "/admin/users", icon: Users },
   { title: "Content Calendar", url: "/admin/calendar", icon: Calendar },
   { title: "A/B Test Manager", url: "/admin/ab-tests", icon: TestTube },
@@ -45,13 +54,21 @@ const superAdminItems = [
   { title: "Theme Customization", url: "/admin/themes", icon: Palette },
 ];
 
+const mspManagementItems = [
+  { title: "MSP Onboarding", url: "/admin/msp/onboarding", icon: UserPlus },
+  { title: "Manage MSPs", url: "/admin/msp/manage", icon: Building },
+  { title: "MSP Analytics", url: "/admin/msp/analytics", icon: TrendingUp },
+];
+
 export function SuperAdminSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const [mspGroupOpen, setMspGroupOpen] = useState(currentPath.startsWith("/admin/msp"));
   
   const isCollapsed = state === "collapsed";
   const isActive = (path: string) => currentPath === path;
+  const isMspSectionActive = currentPath.startsWith("/admin/msp");
 
   return (
     <div className="flex h-screen bg-admin-surface">
@@ -93,6 +110,59 @@ export function SuperAdminSidebar() {
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
+                
+                {/* MSP Management Collapsible Group */}
+                <SidebarMenuItem>
+                  <Collapsible open={mspGroupOpen} onOpenChange={setMspGroupOpen}>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuButton 
+                        className={`w-full rounded-lg transition-all duration-200 ${
+                          isMspSectionActive
+                            ? "bg-admin-primary text-white shadow-admin" 
+                            : "text-admin-primary hover:bg-admin-secondary/50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3 px-3 py-2 w-full">
+                          <Building className="w-4 h-4" />
+                          {!isCollapsed && (
+                            <>
+                              <span className="font-medium flex-1">MSP Management</span>
+                              {mspGroupOpen ? (
+                                <ChevronDown className="w-4 h-4" />
+                              ) : (
+                                <ChevronRight className="w-4 h-4" />
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </SidebarMenuButton>
+                    </CollapsibleTrigger>
+                    {!isCollapsed && (
+                      <CollapsibleContent>
+                        <SidebarMenuSub className="ml-4 mt-1">
+                          {mspManagementItems.map((item) => (
+                            <SidebarMenuSubItem key={item.title}>
+                              <SidebarMenuSubButton 
+                                asChild
+                                isActive={isActive(item.url)}
+                                className={`rounded-lg transition-all duration-200 ${
+                                  isActive(item.url)
+                                    ? "bg-admin-accent text-white" 
+                                    : "text-admin-primary/80 hover:bg-admin-secondary/30"
+                                }`}
+                              >
+                                <NavLink to={item.url} className="flex items-center gap-3 px-3 py-1.5">
+                                  <item.icon className="w-3.5 h-3.5" />
+                                  <span className="font-medium text-sm">{item.title}</span>
+                                </NavLink>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    )}
+                  </Collapsible>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
