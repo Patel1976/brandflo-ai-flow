@@ -66,11 +66,15 @@ export default {
           primary: "hsl(var(--admin-primary))",
           secondary: "hsl(var(--admin-secondary))",
           accent: "hsl(var(--admin-accent))",
+          surface: "hsl(var(--admin-surface))",
+          border: "hsl(var(--admin-border))",
         },
         msp: {
           primary: "hsl(var(--msp-primary))",
           secondary: "hsl(var(--msp-secondary))",
           accent: "hsl(var(--msp-accent))",
+          surface: "hsl(var(--msp-surface))",
+          border: "hsl(var(--msp-border))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -88,7 +92,9 @@ export default {
         'gradient-soft': 'var(--gradient-soft)',
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-admin': 'var(--gradient-admin)',
+        'gradient-admin-card': 'var(--gradient-admin-card)',
         'gradient-msp': 'var(--gradient-msp)',
+        'gradient-msp-card': 'var(--gradient-msp-card)',
         'gradient-card': 'var(--gradient-card)',
       },
       boxShadow: {
@@ -97,6 +103,9 @@ export default {
         'large': 'var(--shadow-large)',
         'glow': 'var(--shadow-glow)',
         'colored': 'var(--shadow-colored)',
+        'admin': 'var(--shadow-admin)',
+        'msp': 'var(--shadow-msp)',
+        'glass': 'var(--shadow-glass)',
       },
       transitionTimingFunction: {
         'smooth': 'var(--transition-smooth)',

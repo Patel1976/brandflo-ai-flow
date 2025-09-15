@@ -42,15 +42,19 @@ All colors MUST be HSL.
     --destructive-foreground: 0 0% 100%;
     --destructive-soft: 0 72% 95%;
     
-    /* Admin Authority Colors */
-    --admin-primary: 214 84% 56%;
-    --admin-secondary: 214 20% 92%;
-    --admin-accent: 273 87% 68%;
+    /* Super Admin - Professional Authority */
+    --admin-primary: 210 100% 12%;        /* Deep navy */
+    --admin-secondary: 210 16% 93%;       /* Light neutral */
+    --admin-accent: 213 93% 68%;          /* Professional blue */
+    --admin-surface: 210 100% 98%;        /* Clean white */
+    --admin-border: 214 20% 88%;          /* Subtle borders */
     
-    /* MSP White-label Base */
-    --msp-primary: 200 82% 54%;
-    --msp-secondary: 200 20% 94%;
-    --msp-accent: 280 75% 65%;
+    /* MSP Admin - White-label Professional */
+    --msp-primary: 221 83% 53%;           /* Trustworthy blue */
+    --msp-secondary: 220 14% 96%;         /* Soft background */
+    --msp-accent: 142 76% 36%;            /* Success green */
+    --msp-surface: 0 0% 100%;             /* Pure white */
+    --msp-border: 220 13% 91%;            /* Clean borders */
     
     /* UI Elements - Softer, More Refined */
     --card: 0 0% 100%;
@@ -68,8 +72,10 @@ All colors MUST be HSL.
     --gradient-primary: linear-gradient(135deg, hsl(236 72% 58%), hsl(14 86% 62%));
     --gradient-soft: linear-gradient(135deg, hsl(236 72% 96%), hsl(14 86% 96%));
     --gradient-hero: linear-gradient(135deg, hsl(236 72% 58%) 0%, hsl(275 70% 62%) 35%, hsl(14 86% 62%) 100%);
-    --gradient-admin: linear-gradient(135deg, hsl(214 84% 56%), hsl(273 87% 68%));
-    --gradient-msp: linear-gradient(135deg, hsl(200 82% 54%), hsl(280 75% 65%));
+    --gradient-admin: linear-gradient(135deg, hsl(210 100% 12%), hsl(213 93% 68%));
+    --gradient-admin-card: linear-gradient(135deg, hsl(210 100% 98%), hsl(213 27% 96%));
+    --gradient-msp: linear-gradient(135deg, hsl(221 83% 53%), hsl(142 76% 36%));
+    --gradient-msp-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
     
     /* Enhanced Shadow System */
@@ -78,6 +84,9 @@ All colors MUST be HSL.
     --shadow-large: 0 8px 40px -8px hsl(222 22% 8% / 0.14);
     --shadow-glow: 0 0 0 1px hsl(236 72% 58% / 0.08), 0 2px 8px hsl(236 72% 58% / 0.16);
     --shadow-colored: 0 4px 20px -4px hsl(236 72% 58% / 0.25);
+    --shadow-admin: 0 4px 20px -4px hsl(210 100% 12% / 0.15);
+    --shadow-msp: 0 4px 20px -4px hsl(221 83% 53% / 0.15);
+    --shadow-glass: 0 8px 32px 0 hsl(0 0% 0% / 0.08), inset 0 1px 0 hsl(0 0% 100% / 0.1);
     
     /* Spacing & Layout */
     --radius: 0.75rem;
