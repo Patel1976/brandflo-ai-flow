@@ -10,7 +10,8 @@ import {
   Settings,
   Key,
   Lock,
-  Building
+  Building,
+  ChevronDown
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -27,10 +28,11 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
 
 const adminItems = [
   { title: "Admin Dashboard", url: "/admin", icon: Shield },
-  { title: "MSP Management", url: "/admin/msp", icon: Building },
   { title: "User & Brand Management", url: "/admin/users", icon: Users },
   { title: "Content Calendar", url: "/admin/calendar", icon: Calendar },
   { title: "A/B Test Manager", url: "/admin/ab-tests", icon: TestTube },
@@ -41,13 +43,21 @@ const adminItems = [
   { title: "Theme Customization", url: "/admin/themes", icon: Palette },
 ];
 
+const mspManagementItems = [
+  { title: "MSP Onboarding", url: "/admin/msp/onboarding", icon: Building },
+  { title: "Manage MSPs", url: "/admin/msp/manage", icon: Users },
+  { title: "MSP Analytics", url: "/admin/msp/analytics", icon: BarChart3 },
+];
+
 export function AdminSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isMSPOpen, setIsMSPOpen] = useState(currentPath.startsWith("/admin/msp"));
   
   const isCollapsed = state === "collapsed";
   const isActive = (path: string) => currentPath === path;
+  const isMSPActive = currentPath.startsWith("/admin/msp");
 
   return (
     <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="offcanvas">
@@ -63,9 +73,9 @@ export function AdminSidebar() {
         <SidebarTrigger className="ml-auto" />
       </SidebarHeader>
 
-      <SidebarContent className="bg-gradient-to-b from-amber-50/30 to-orange-50/30 dark:from-amber-950/10 dark:to-orange-950/10">
+      <SidebarContent className="bg-gradient-to-b from-primary-soft/30 to-accent-soft/30 dark:from-primary/10 dark:to-accent/10">
         <SidebarGroup>
-          <SidebarGroupLabel className="text-amber-600 dark:text-amber-400">Admin Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary dark:text-primary">Admin Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
@@ -73,7 +83,7 @@ export function AdminSidebar() {
                   <SidebarMenuButton 
                     asChild 
                     isActive={isActive(item.url)}
-                    className="w-full hover:bg-amber-100 dark:hover:bg-amber-900/20"
+                    className="w-full hover:bg-primary-soft dark:hover:bg-primary/20"
                   >
                     <NavLink to={item.url} className="flex items-center gap-2">
                       <item.icon className="w-4 h-4" />
@@ -82,6 +92,51 @@ export function AdminSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-primary dark:text-primary">MSP Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <Collapsible open={isMSPOpen} onOpenChange={setIsMSPOpen}>
+                  <CollapsibleTrigger asChild>
+                    <SidebarMenuButton 
+                      className={`w-full hover:bg-primary-soft dark:hover:bg-primary/20 ${isMSPActive ? 'bg-primary-soft text-primary dark:bg-primary/20' : ''}`}
+                    >
+                      <Building className="w-4 h-4" />
+                      {!isCollapsed && (
+                        <>
+                          <span>MSP Management</span>
+                          <ChevronDown className={`w-4 h-4 ml-auto transition-transform ${isMSPOpen ? 'rotate-180' : ''}`} />
+                        </>
+                      )}
+                    </SidebarMenuButton>
+                  </CollapsibleTrigger>
+                  {!isCollapsed && (
+                    <CollapsibleContent className="pl-4">
+                      <SidebarMenu>
+                        {mspManagementItems.map((item) => (
+                          <SidebarMenuItem key={item.title}>
+                            <SidebarMenuButton 
+                              asChild 
+                              isActive={isActive(item.url)}
+                              className="w-full hover:bg-primary-soft dark:hover:bg-primary/20 text-sm"
+                            >
+                              <NavLink to={item.url} className="flex items-center gap-2">
+                                <item.icon className="w-3 h-3" />
+                                <span>{item.title}</span>
+                              </NavLink>
+                            </SidebarMenuButton>
+                          </SidebarMenuItem>
+                        ))}
+                      </SidebarMenu>
+                    </CollapsibleContent>
+                  )}
+                </Collapsible>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
