@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ConditionalLayout } from "./components/layout/ConditionalLayout";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
+import Signup from "./pages/signup";
+import ForgotPassword from "./pages/forgot-password";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import PlanSelection from "./pages/PlanSelection";
@@ -31,8 +33,10 @@ const App = () => (
       <BrowserRouter>
         <ConditionalLayout>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
+            {/* <Route path="/" element={<Index />} /> */}
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/plan-selection" element={<PlanSelection />} />
             <Route path="/guided-setup" element={<GuidedSetup />} />
             <Route path="/dashboard" element={<Dashboard />} />

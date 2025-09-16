@@ -44,7 +44,7 @@ export function UserSidebar() {
   const currentPath = location.pathname;
   
   const isCollapsed = state === "collapsed";
-  const isActive = (path: string) => currentPath === path;
+  const isActive = (path: string) => currentPath.startsWith(path);
 
   return (
     <Sidebar className={isCollapsed ? "w-16" : "w-64"} collapsible="offcanvas">
@@ -56,7 +56,7 @@ export function UserSidebar() {
           {!isCollapsed && (
             <span className="font-bold text-xl text-sidebar-foreground">BrandFlo</span>
           )}
-          <SidebarTrigger className="ml-auto" />
+          {/* <SidebarTrigger className="ml-auto" /> */}
         </div>
       </SidebarHeader>
 

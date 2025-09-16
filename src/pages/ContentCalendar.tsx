@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Calendar as CalendarIcon, 
-  ChevronLeft, 
-  ChevronRight, 
-  Plus, 
+import {
+  Calendar as CalendarIcon,
+  ChevronLeft,
+  ChevronRight,
+  Plus,
   Clock,
   Instagram,
   Facebook,
@@ -18,6 +18,7 @@ import {
   Trash2,
   Sparkles
 } from "lucide-react";
+import UserHeader from "@/components/layout/UserHeader";
 const mockPosts = [
   {
     id: 1,
@@ -68,19 +69,19 @@ export default function ContentCalendar() {
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-    
+
     const days = [];
-    
+
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
-    
+
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       days.push(day);
     }
-    
+
     return days;
   };
 
@@ -111,7 +112,7 @@ export default function ContentCalendar() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
+      {/* Header
       <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
         <div className="flex h-16 items-center justify-between px-6">
           <div className="flex items-center gap-4">
@@ -128,15 +129,18 @@ export default function ContentCalendar() {
             </Button>
           </div>
         </div>
-      </header>
-      
+      </header> */}
+
+      {/* Dashboard Header */}
+      <UserHeader />
+
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold">Content Calendar</h1>
             <p className="text-muted-foreground">Manage and schedule your social media content</p>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <Button variant="outline" className="gap-2">
               <Sparkles className="w-4 h-4" />
@@ -163,15 +167,15 @@ export default function ContentCalendar() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button 
-              variant={viewMode === "month" ? "default" : "outline"} 
+            <Button
+              variant={viewMode === "month" ? "default" : "outline"}
               size="sm"
               onClick={() => setViewMode("month")}
             >
               Month
             </Button>
-            <Button 
-              variant={viewMode === "week" ? "default" : "outline"} 
+            <Button
+              variant={viewMode === "week" ? "default" : "outline"}
               size="sm"
               onClick={() => setViewMode("week")}
             >
@@ -189,11 +193,11 @@ export default function ContentCalendar() {
                 </div>
               ))}
             </div>
-            
+
             <div className="grid grid-cols-7">
               {getDaysInMonth(currentDate).map((day, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="min-h-32 border-r border-b border-card-border last:border-r-0 p-2"
                 >
                   {day && (
@@ -201,14 +205,14 @@ export default function ContentCalendar() {
                       <div className="text-sm font-medium">{day}</div>
                       <div className="space-y-1">
                         {getPostsForDate(day).map(post => (
-                          <div 
+                          <div
                             key={post.id}
                             className="p-2 bg-primary-soft rounded text-xs cursor-pointer hover:bg-primary/10"
                             onClick={() => setSelectedPost(post)}
                           >
                             <div className="flex items-center justify-between mb-1">
                               <span className="font-medium truncate">{post.time}</span>
-                              <Badge 
+                              <Badge
                                 variant={post.status === "published" ? "default" : "secondary"}
                                 className="text-xs"
                               >
@@ -270,8 +274,8 @@ export default function ContentCalendar() {
               <div>
                 <label className="text-sm font-medium">Content</label>
                 {isEditing ? (
-                  <Textarea 
-                    value={selectedPost.content} 
+                  <Textarea
+                    value={selectedPost.content}
                     className="mt-1"
                     rows={3}
                   />

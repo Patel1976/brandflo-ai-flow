@@ -8,7 +8,8 @@ import { ArrowLeft, Mail, Lock, Sparkles, Linkedin, Twitter } from "lucide-react
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 
-export default function Login() {
+export default function Signup() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -24,15 +25,28 @@ export default function Login() {
               <span className="font-bold text-2xl">BrandFlo</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Welcome back</h1>
+              <h1 className="text-2xl font-bold">Create an account</h1>
               <p className="text-muted-foreground">
-                Sign in to your account to continue
+                Sign up to get started with BrandFlo
               </p>
             </div>
           </div>
 
           <CardContent className="space-y-6">
             <div className="space-y-4">
+              {/* Name Field */}
+              <div className="space-y-2">
+                <Label htmlFor="name">Full Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+
+              {/* Email Field */}
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -48,14 +62,15 @@ export default function Login() {
                 </div>
               </div>
 
+              {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Create a password</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Create a strong password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10"
@@ -63,38 +78,24 @@ export default function Login() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <input type="checkbox" id="remember" className="rounded" />
-                  <Label htmlFor="remember" className="text-sm">
-                    Remember me
-                  </Label>
-                </div>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-
               <Button variant="hero" className="w-full" size="lg">
-                Sign In
+                Sign Up
               </Button>
             </div>
 
+            {/* Separator */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <Separator />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
+                  Or sign up with
                 </span>
               </div>
             </div>
 
-            {/* Social login buttons - now 3 columns */}
+            {/* Social login buttons */}
             <div className="grid grid-cols-3 gap-4">
               <Button variant="outline" className="w-full">
                 <FcGoogle className="w-4 h-4 mr-2" />
@@ -110,13 +111,14 @@ export default function Login() {
               </Button>
             </div>
 
+            {/* Already have account */}
             <div className="text-center text-sm">
-              Don't have an account?{" "}
+              Already have an account?{" "}
               <Link
-                to="/signup"
+                to="/"
                 className="text-primary hover:underline font-medium"
               >
-                Sign up
+                Sign in
               </Link>
             </div>
           </CardContent>

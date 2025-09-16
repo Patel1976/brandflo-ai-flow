@@ -58,7 +58,6 @@ const plans = [
 
 export default function PlanSelection() {
   const [selectedPlan, setSelectedPlan] = useState("Standard");
-  const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate();
 
@@ -131,22 +130,6 @@ export default function PlanSelection() {
             </Card>
           ))}
         </div>
-
-        <Card className="max-w-md mx-auto">
-          <CardHeader>
-            <CardTitle>Have a coupon code?</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Input 
-              placeholder="Enter coupon code"
-              value={couponCode}
-              onChange={(e) => setCouponCode(e.target.value)}
-            />
-            <Button variant="outline" className="w-full">
-              Apply Coupon
-            </Button>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

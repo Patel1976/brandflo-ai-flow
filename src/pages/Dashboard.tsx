@@ -1,9 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  BarChart3, 
-  Users, 
-  TrendingUp, 
+import {
+  BarChart3,
+  Users,
+  TrendingUp,
   Calendar,
   Plus,
   ChevronDown,
@@ -11,45 +11,67 @@ import {
   Eye,
   Heart,
   MessageCircle,
-  Share2
+  Share2,
+  Settings
 } from "lucide-react";
+import UserHeader from "@/components/layout/UserHeader";
+import { Progress } from "@/components/ui/progress";
 
 export default function Dashboard() {
+  const totalTokens = 200;
+  const usedTokens = 156;
+  const usagePercent = (usedTokens / totalTokens) * 100;
   return (
     <div className="min-h-screen bg-background">
       {/* Dashboard Header */}
-      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 ml-8">
-              <span className="text-sm text-muted-foreground">Brand:</span>
-              <Button variant="outline" size="sm" className="gap-2">
-                TechCorp
-                <ChevronDown className="w-4 h-4" />
-              </Button>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Button variant="hero" className="gap-2">
-              <Plus className="w-4 h-4" />
-              Create Post
-            </Button>
-            <Button variant="ghost" size="icon">
-              <div className="w-8 h-8 bg-gradient-primary rounded-full"></div>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <UserHeader />
 
       <div className="p-6 space-y-8">
         {/* Welcome Section */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Good morning, Sarah! 👋</h1>
-          <p className="text-muted-foreground">
-            Here's what's happening with your social media today.
-          </p>
+        <div className="space-y-4 sm:space-y-0 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Good morning, Sarah! 👋</h1>
+            <p className="text-muted-foreground">
+              Here's what's happening with your social media today.
+            </p>
+          </div>
+
+          {/* Actions */}
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button size="lg" className="flex items-center gap-2">
+              <Plus className="w-4 h-4" />
+              Create Post
+            </Button>
+            <Button variant="outline" size="lg" className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              Calendar
+            </Button>
+          </div>
         </div>
+
+        {/* ✅ Plan Usage Reminder Section */}
+        <Card className="border-card-border">
+          <CardContent className="p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-semibold text-lg">Plan Usage</h3>
+                <p className="text-sm text-muted-foreground">
+                  {usedTokens} of {totalTokens} AI credits used this month
+                </p>
+              </div>
+              <Button variant="outline" size="sm">
+                Upgrade
+              </Button>
+            </div>
+
+            {/* Progress Bar */}
+            <Progress value={usagePercent} className="h-2" />
+
+            <p className="text-xs text-muted-foreground text-right">
+              {Math.round(usagePercent)}% used
+            </p>
+          </CardContent>
+        </Card>
 
         {/* KPI Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -106,113 +128,165 @@ export default function Dashboard() {
           </Card>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Recent Activity */}
-          <div className="lg:col-span-2 space-y-6">
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <BarChart3 className="w-5 h-5" />
-                  Performance Overview
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-64 bg-gradient-soft rounded-lg flex items-center justify-center">
-                  <div className="text-center space-y-2">
-                    <TrendingUp className="w-12 h-12 text-primary mx-auto" />
-                    <p className="text-muted-foreground">Analytics chart will go here</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle>Recent Posts</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {[1, 2, 3].map((post) => (
-                  <div key={post} className="flex items-center gap-4 p-4 bg-muted rounded-lg">
-                    <div className="w-12 h-12 bg-gradient-primary rounded-lg"></div>
-                    <div className="flex-1">
-                      <h4 className="font-medium">New product launch announcement</h4>
-                      <p className="text-sm text-muted-foreground">Instagram • 2 hours ago</p>
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Recent Campaigns */}
+          <Card className="lg:col-span-2 border border-gray-200 shadow-sm rounded-2xl">
+            <CardHeader className="pb-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-gray-700" />
+                <CardTitle className="text-lg font-semibold">Recent Campaigns</CardTitle>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Stay updated on your latest marketing campaigns
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {[
+                {
+                  name: "Spring Collection Teasers",
+                  posts: 15,
+                  engagement: "6.8%",
+                  platforms: ["Instagram", "TikTok"],
+                  status: "Active",
+                  statusColor: "bg-gradient-to-r from-green-400 to-emerald-500 text-white",
+                },
+                {
+                  name: "Product Feedback Poll",
+                  posts: 5,
+                  engagement: "4.3%",
+                  platforms: ["Twitter", "Facebook"],
+                  status: "Scheduled",
+                  statusColor: "bg-gray-100 text-gray-800",
+                },
+                {
+                  name: "Valentine's Day Sale",
+                  posts: 10,
+                  engagement: "8.1%",
+                  platforms: ["Instagram", "Pinterest"],
+                  status: "Draft",
+                  statusColor: "bg-gray-100 text-gray-800",
+                },
+              ].map((campaign, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between border border-gray-100 p-4 rounded-xl hover:shadow-sm transition"
+                >
+                  <div>
+                    <h4 className="font-medium">{campaign.name}</h4>
+                    <p className="text-sm text-muted-foreground">
+                      {campaign.posts} posts • Engagement: {campaign.engagement}
+                    </p>
+                    <div className="flex gap-2 mt-2">
+                      {campaign.platforms.map((p, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-1 text-xs bg-gray-100 rounded-md text-gray-700"
+                        >
+                          {p}
+                        </span>
+                      ))}
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Heart className="w-4 h-4" />
-                        1.2k
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MessageCircle className="w-4 h-4" />
-                        45
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Share2 className="w-4 h-4" />
-                        12
-                      </div>
-                    </div>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
+                  <span
+                    className={`text-xs px-3 py-1 rounded-full font-medium ${campaign.statusColor}`}
+                  >
+                    {campaign.status}
+                  </span>
+                </div>
+              ))}
+              <button className="w-full py-2 mt-2 border border-gray-200 rounded-xl hover:bg-gray-50 font-medium text-sm">
+                View All Campaigns
+              </button>
+            </CardContent>
+          </Card>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <Plus className="w-4 h-4" />
-                  Generate AI Post
-                </Button>
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <Calendar className="w-4 h-4" />
-                  Schedule Content
-                </Button>
-                <Button variant="outline" className="w-full justify-start gap-2">
-                  <BarChart3 className="w-4 h-4" />
-                  View Analytics
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle>Upcoming Posts</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {[1, 2, 3].map((item) => (
-                  <div key={item} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Holiday Sale Post</span>
-                      <span className="text-xs text-muted-foreground">2h</span>
-                    </div>
-                    <div className="text-xs text-muted-foreground">LinkedIn, Twitter</div>
+          {/* Upcoming Posts */}
+          <Card className="border border-gray-200 shadow-sm rounded-2xl">
+            <CardHeader className="pb-2">
+              <div className="flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-gray-700" />
+                <CardTitle className="text-lg font-semibold">Upcoming Posts</CardTitle>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Your scheduled social media posts
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {[
+                {
+                  platform: "Instagram",
+                  text: "New reel dropping: Behind the scenes of our Spring Collection 🌸",
+                  time: "Today, 5:00 PM",
+                  status: "scheduled",
+                },
+                {
+                  platform: "Facebook",
+                  text: "Vote now! Which product color should we launch next? 🎨",
+                  time: "Tomorrow, 1:00 PM",
+                  status: "scheduled",
+                },
+                {
+                  platform: "LinkedIn",
+                  text: "Sharing insights: How we scaled our business in 2025 🚀",
+                  time: "Mar 20, 11:00 AM",
+                  status: "draft",
+                },
+              ].map((post, i) => (
+                <div
+                  key={i}
+                  className="border border-gray-100 p-4 rounded-xl hover:shadow-sm transition"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-1 text-xs bg-gray-100 rounded-md text-gray-700">
+                      {post.platform}
+                    </span>
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full font-medium ${post.status === "scheduled"
+                          ? "bg-gradient-to-r from-green-400 to-emerald-500 text-white"
+                          : "bg-gray-100 text-gray-700"
+                        }`}
+                    >
+                      {post.status}
+                    </span>
                   </div>
-                ))}
-              </CardContent>
-            </Card>
-
-            <Card className="border-primary/10 bg-gradient-soft">
-              <CardContent className="p-6 text-center space-y-4">
-                <div className="w-12 h-12 bg-gradient-primary rounded-full mx-auto flex items-center justify-center">
-                  <Sparkles className="w-6 h-6 text-white" />
+                  <p className="text-sm mt-2">{post.text}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{post.time}</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold">Upgrade to Premium</h3>
-                  <p className="text-sm text-muted-foreground">Get unlimited AI posts and advanced analytics</p>
-                </div>
-                <Button variant="hero" size="sm" className="w-full">
-                  Upgrade Now
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
+              ))}
+              <button className="w-full py-2 mt-2 border border-gray-200 rounded-xl hover:bg-gray-50 font-medium text-sm">
+                View Full Calendar
+              </button>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Quick Actions Section (Bottom of Dashboard) */}
+        <Card className="border-card-border mt-8">
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Streamline your workflow with these shortcuts
+            </p>
+          </CardHeader>
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <Plus className="w-4 h-4" />
+              Create Post
+            </Button>
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <Calendar className="w-4 h-4" />
+              Schedule Content
+            </Button>
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <BarChart3 className="w-4 h-4" />
+              View Analytics
+            </Button>
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <Settings className="w-4 h-4" />
+              Settings
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
