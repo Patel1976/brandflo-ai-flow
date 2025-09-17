@@ -10,6 +10,9 @@ import Signup from "./pages/signup";
 import ForgotPassword from "./pages/forgot-password";
 import Dashboard from "./pages/Dashboard";
 import AdminDashboard from "./pages/AdminDashboard";
+import MSPOnboarding from "./pages/admin/MSPOnboarding";
+import ManageMSPs from "./pages/admin/ManageMSPs";
+import MSPAnalytics from "./pages/admin/MSPAnalytics";
 import PlanSelection from "./pages/PlanSelection";
 import GuidedSetup from "./pages/GuidedSetup";
 import ContentCalendar from "./pages/ContentCalendar";
@@ -50,6 +53,9 @@ const App = () => (
             <Route path="/settings" element={<Settings />} />
             <Route path="/ai-feedback" element={<AIFeedback />} />
             <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/msp/onboarding" element={<MSPOnboarding />} />
+            <Route path="/admin/msp/manage" element={<ManageMSPs />} />
+            <Route path="/admin/msp/analytics" element={<MSPAnalytics />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ConditionalLayout>

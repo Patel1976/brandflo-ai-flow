@@ -3,14 +3,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { 
-  Sparkles, 
-  Upload, 
-  Instagram, 
-  Facebook, 
-  Linkedin, 
-  Twitter,
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Sparkles,
+  Upload,
+  Instagram,
+  Facebook,
+  Linkedin,
   Calendar,
   Clock,
   Smile,
@@ -18,15 +24,24 @@ import {
   Wand2,
   Image as ImageIcon
 } from "lucide-react";
-const platforms = [
-  { name: "Instagram", icon: Instagram, selected: true },
-  { name: "Facebook", icon: Facebook, selected: false },
-  { name: "LinkedIn", icon: Linkedin, selected: false },
-  { name: "Twitter", icon: Twitter, selected: true },
+
+const aiPlatforms = [
+  { name: "ChatGPT", models: ["GPT-4", "GPT-3.5"] },
+  { name: "Google", models: ["Gemini Pro", "Gemini Ultra"] },
+  { name: "Meta", models: ["LLaMA 3 Small", "LLaMA 3 Large"] },
+];
+
+const tones = ["Professional", "Casual", "Funny", "Inspiring", "Persuasive"];
+const lengths = ["Short", "Medium", "Long"];
+
+const socialPlatforms = [
+  { name: "Instagram", icon: Instagram },
+  { name: "Facebook", icon: Facebook },
+  { name: "LinkedIn", icon: Linkedin },
 ];
 
 const suggestedHashtags = [
-  "#marketing", "#socialmedia", "#business", "#innovation", 
+  "#marketing", "#socialmedia", "#business", "#innovation",
   "#technology", "#startup", "#growth", "#content"
 ];
 
@@ -39,27 +54,37 @@ const aiSuggestions = [
 export default function PostCreation() {
   const [prompt, setPrompt] = useState("");
   const [generatedContent, setGeneratedContent] = useState("");
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>(["Instagram", "Twitter"]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [selectedModels, setSelectedModels] = useState<string[]>([]);
+  const [selectedTone, setSelectedTone] = useState("Professional");
+  const [selectedLength, setSelectedLength] = useState("Medium");
+  const [selectedSocials, setSelectedSocials] = useState<string[]>([]);
+  const [enableImageGen, setEnableImageGen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [generatedPosts, setGeneratedPosts] = useState<string[]>([]);
 
-  const handleGenerateContent = async () => {
+  const handleGenerateContent = () => {
     if (!prompt.trim()) return;
-    
     setIsGenerating(true);
-    // Simulate AI generation
     setTimeout(() => {
-      const randomSuggestion = aiSuggestions[Math.floor(Math.random() * aiSuggestions.length)];
-      setGeneratedContent(randomSuggestion);
+      const newPosts = [
+        `✨ Option 1: ${prompt} (Tone: ${selectedTone}, Length: ${selectedLength})`,
+        `🔥 Option 2: ${prompt} (Tone: ${selectedTone}, Length: ${selectedLength})`,
+        `💡 Option 3: ${prompt} (Tone: ${selectedTone}, Length: ${selectedLength})`,
+      ];
+      setGeneratedPosts(newPosts);
       setIsGenerating(false);
+      setIsPreviewOpen(true);
     }, 2000);
   };
 
   const handlePlatformToggle = (platform: string) => {
-    setSelectedPlatforms(prev => 
-      prev.includes(platform) 
+    setSelectedPlatforms(prev =>
+      prev.includes(platform)
         ? prev.filter(p => p !== platform)
         : [...prev, platform]
     );
@@ -84,21 +109,14 @@ export default function PostCreation() {
     setGeneratedContent(prev => prev + " " + hashtag);
   };
 
+  const toggleSelection = (list: string[], item: string, setter: (val: string[]) => void) => {
+    setter(
+      list.includes(item) ? list.filter(i => i !== item) : [...list, item]
+    );
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-sidebar-border bg-background sticky top-0 z-40">
-        <div className="flex h-16 items-center justify-between px-6">
-          <div className="flex items-center gap-4">
-            <h1 className="text-xl font-semibold">Create Post</h1>
-          </div>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm">Save Draft</Button>
-            <Button variant="hero" size="sm">Post Now</Button>
-          </div>
-        </div>
-      </header>
-      
       <div className="p-6 space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -118,18 +136,120 @@ export default function PostCreation() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
+                {/* AI Platform */}
                 <div>
-                  <label className="text-sm font-medium">Tell AI what you want to create</label>
-                  <Textarea 
+                  <p className="text-sm font-medium mb-2">AI Platforms</p>
+                  <div className="flex gap-4 flex-wrap">
+                    {aiPlatforms.map(p => (
+                      <label key={p.name} className="flex items-center gap-2">
+                        <Checkbox
+                          checked={selectedPlatforms.includes(p.name)}
+                          onCheckedChange={() => toggleSelection(selectedPlatforms, p.name, setSelectedPlatforms)}
+                        />
+                        {p.name}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                {/* AI Models */}
+                {selectedPlatforms.length > 0 && (
+                  <div>
+                    <p className="text-sm font-medium mb-2">AI Models</p>
+                    <div className="flex gap-2 flex-wrap">
+                      {aiPlatforms
+                        .filter(p => selectedPlatforms.includes(p.name))
+                        .flatMap(p => p.models)
+                        .map(model => (
+                          <Button
+                            key={model}
+                            variant={selectedModels.includes(model) ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => toggleSelection(selectedModels, model, setSelectedModels)}
+                          >
+                            {model}
+                          </Button>
+                        ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Image Gen Toggle */}
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={enableImageGen}
+                    onCheckedChange={(checked) => setEnableImageGen(checked === true)}
+                  />
+                  <span className="text-sm">Enable Image Generation</span>
+                </div>
+
+                {/* Tone */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Tone</p>
+                  <Select value={selectedTone} onValueChange={setSelectedTone}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select tone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tones.map(tone => (
+                        <SelectItem key={tone} value={tone}>
+                          {tone}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Length */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Length</p>
+                  <div className="flex gap-2">
+                    {lengths.map(len => (
+                      <Button
+                        key={len}
+                        variant={selectedLength === len ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setSelectedLength(len)}
+                      >
+                        {len}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Social Media Selection */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Target Platforms</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {socialPlatforms.map(p => {
+                      const Icon = p.icon;
+                      return (
+                        <Button
+                          key={p.name}
+                          variant={selectedSocials.includes(p.name) ? "default" : "outline"}
+                          onClick={() => toggleSelection(selectedSocials, p.name, setSelectedSocials)}
+                          className="h-auto p-4 gap-2"
+                        >
+                          <Icon className="w-4 h-4" />
+                          {p.name}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Prompt */}
+                <div>
+                  <p className="text-sm font-medium mb-2">Prompt</p>
+                  <Textarea
                     placeholder="e.g., 'Create a post about our new product launch with an exciting tone'"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
                     rows={3}
-                    className="mt-1"
                   />
                 </div>
-                
-                <Button 
+
+                <Button
                   onClick={handleGenerateContent}
                   disabled={!prompt.trim() || isGenerating}
                   className="w-full gap-2"
@@ -143,6 +263,84 @@ export default function PostCreation() {
             <Card className="border-card-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
+                  <Hash className="w-5 h-5" />
+                  Suggested Hashtags
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                  {suggestedHashtags.map(hashtag => (
+                    <Button
+                      key={hashtag}
+                      variant="outline"
+                      size="sm"
+                      onClick={() => addHashtag(hashtag)}
+                    >
+                      {hashtag}
+                    </Button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Preview & Settings */}
+          <div className="space-y-6">
+            <Card className="border-card-border">
+              <CardHeader>
+                <CardTitle>Content Preview</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Post Content</label>
+                  <Textarea
+                    value={generatedContent}
+                    onChange={(e) => setGeneratedContent(e.target.value)}
+                    placeholder="Generated content will appear here..."
+                    rows={6}
+                    className="mt-1"
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Smile className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">Emoji picker coming soon</span>
+                </div>
+
+                <div className="text-sm text-muted-foreground">
+                  Character count: {generatedContent.length}/280 (Instagram)
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-card-border">
+              <CardHeader>
+                <CardTitle>Platform Selection</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="grid grid-cols-2 gap-3">
+                  {socialPlatforms.map(platform => {
+                    const Icon = platform.icon;
+                    const isSelected = selectedPlatforms.includes(platform.name);
+
+                    return (
+                      <Button
+                        key={platform.name}
+                        variant={isSelected ? "default" : "outline"}
+                        onClick={() => handlePlatformToggle(platform.name)}
+                        className="h-auto p-4 gap-2"
+                      >
+                        <Icon className="w-4 h-4" />
+                        {platform.name}
+                      </Button>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="border-card-border">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
                   <ImageIcon className="w-5 h-5" />
                   Image Upload
                 </CardTitle>
@@ -151,9 +349,9 @@ export default function PostCreation() {
                 <div className="border-2 border-dashed border-card-border rounded-lg p-8 text-center space-y-4">
                   {uploadedImage ? (
                     <div className="space-y-4">
-                      <img 
-                        src={uploadedImage} 
-                        alt="Uploaded" 
+                      <img
+                        src={uploadedImage}
+                        alt="Uploaded"
                         className="max-w-full h-48 object-cover mx-auto rounded-lg"
                       />
                       <Button variant="outline" onClick={() => setUploadedImage(null)}>
@@ -188,85 +386,6 @@ export default function PostCreation() {
             <Card className="border-card-border">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Hash className="w-5 h-5" />
-                  Suggested Hashtags
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  {suggestedHashtags.map(hashtag => (
-                    <Button 
-                      key={hashtag}
-                      variant="outline" 
-                      size="sm"
-                      onClick={() => addHashtag(hashtag)}
-                    >
-                      {hashtag}
-                    </Button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Preview & Settings */}
-          <div className="space-y-6">
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle>Content Preview</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-sm font-medium">Post Content</label>
-                  <Textarea 
-                    value={generatedContent}
-                    onChange={(e) => setGeneratedContent(e.target.value)}
-                    placeholder="Generated content will appear here..."
-                    rows={6}
-                    className="mt-1"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Smile className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Emoji picker coming soon</span>
-                </div>
-
-                <div className="text-sm text-muted-foreground">
-                  Character count: {generatedContent.length}/280 (Twitter)
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle>Platform Selection</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-3">
-                  {platforms.map(platform => {
-                    const Icon = platform.icon;
-                    const isSelected = selectedPlatforms.includes(platform.name);
-                    
-                    return (
-                      <Button
-                        key={platform.name}
-                        variant={isSelected ? "default" : "outline"}
-                        onClick={() => handlePlatformToggle(platform.name)}
-                        className="h-auto p-4 gap-2"
-                      >
-                        <Icon className="w-4 h-4" />
-                        {platform.name}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-card-border">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
                   Schedule Post
                 </CardTitle>
@@ -275,7 +394,7 @@ export default function PostCreation() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium">Date</label>
-                    <Input 
+                    <Input
                       type="date"
                       value={scheduleDate}
                       onChange={(e) => setScheduleDate(e.target.value)}
@@ -284,7 +403,7 @@ export default function PostCreation() {
                   </div>
                   <div>
                     <label className="text-sm font-medium">Time</label>
-                    <Input 
+                    <Input
                       type="time"
                       value={scheduleTime}
                       onChange={(e) => setScheduleTime(e.target.value)}
@@ -301,34 +420,47 @@ export default function PostCreation() {
                     Save Draft
                   </Button>
                 </div>
-                
+
                 <Button variant="hero" className="w-full">
                   Post Now
                 </Button>
               </CardContent>
             </Card>
+          </div>
 
-            {/* AI Suggestions */}
-            <Card className="border-primary/20 bg-primary-soft">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <Sparkles className="w-5 h-5" />
-                  AI Suggestions
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                {aiSuggestions.slice(0, 2).map((suggestion, index) => (
-                  <div 
-                    key={index}
-                    className="p-3 bg-background rounded-lg cursor-pointer hover:shadow-sm transition-shadow"
-                    onClick={() => setGeneratedContent(suggestion)}
+          <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+            <DialogContent className="w-full max-w-[90vw] md:max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Generated Post Options</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                {generatedPosts.map((option, idx) => (
+                  <div
+                    key={idx}
+                    className={`p-3 border rounded-lg ${generatedContent === option
+                      ? "border-primary bg-primary/10"
+                      : "border-muted"
+                      }`}
                   >
-                    <p className="text-sm">{suggestion}</p>
+                    <p>{option}</p>
+                    <Button
+                      size="sm"
+                      className="mt-2"
+                      onClick={() => setGeneratedContent(option)}
+                    >
+                      {generatedContent === option ? "Selected" : "Select this"}
+                    </Button>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
-          </div>
+              </div>
+              <div className="flex gap-2 mt-6">
+                <Button variant="outline" onClick={() => setIsPreviewOpen(false)}>
+                  Close
+                </Button>
+                <Button onClick={() => setIsPreviewOpen(false)}>Confirm</Button>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>

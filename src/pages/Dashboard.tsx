@@ -14,18 +14,16 @@ import {
   Share2,
   Settings
 } from "lucide-react";
-import UserHeader from "@/components/layout/UserHeader";
 import { Progress } from "@/components/ui/progress";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const totalTokens = 200;
   const usedTokens = 156;
   const usagePercent = (usedTokens / totalTokens) * 100;
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-background">
-      {/* Dashboard Header */}
-      <UserHeader />
-
       <div className="p-6 space-y-8">
         {/* Welcome Section */}
         <div className="space-y-4 sm:space-y-0 flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -38,11 +36,11 @@ export default function Dashboard() {
 
           {/* Actions */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button size="lg" className="flex items-center gap-2">
+            <Button size="lg" className="flex items-center gap-2" onClick={() => navigate("/create")}>
               <Plus className="w-4 h-4" />
               Create Post
             </Button>
-            <Button variant="outline" size="lg" className="flex items-center gap-2">
+            <Button variant="outline" size="lg" className="flex items-center gap-2" onClick={() => navigate("/calendar")}>
               <Calendar className="w-4 h-4" />
               Calendar
             </Button>
@@ -253,7 +251,7 @@ export default function Dashboard() {
                   <p className="text-xs text-muted-foreground mt-1">{post.time}</p>
                 </div>
               ))}
-              <button className="w-full py-2 mt-2 border border-gray-200 rounded-xl hover:bg-gray-50 font-medium text-sm">
+              <button className="w-full py-2 mt-2 border border-gray-200 rounded-xl hover:bg-gray-50 font-medium text-sm" onClick={() => navigate("/calendar")}>
                 View Full Calendar
               </button>
             </CardContent>
@@ -269,19 +267,19 @@ export default function Dashboard() {
             </p>
           </CardHeader>
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Button variant="outline" className="w-full justify-start gap-2">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/create")}>
               <Plus className="w-4 h-4" />
               Create Post
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-2">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/calendar")}>
               <Calendar className="w-4 h-4" />
               Schedule Content
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-2">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/analytics")}>
               <BarChart3 className="w-4 h-4" />
               View Analytics
             </Button>
-            <Button variant="outline" className="w-full justify-start gap-2">
+            <Button variant="outline" className="w-full justify-start gap-2" onClick={() => navigate("/settings")}>
               <Settings className="w-4 h-4" />
               Settings
             </Button>

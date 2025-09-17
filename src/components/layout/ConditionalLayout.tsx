@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { UserSidebar } from "./UserSidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import UserHeader from "./UserHeader";
 
 interface ConditionalLayoutProps {
   children: ReactNode;
@@ -15,7 +16,7 @@ export function ConditionalLayout({ children }: ConditionalLayoutProps) {
   // Routes that should show user sidebar
   const userSidebarRoutes = [
     "/dashboard",
-    "/calendar", 
+    "/calendar",
     "/create",
     "/ab-testing",
     "/brand-voice",
@@ -32,7 +33,7 @@ export function ConditionalLayout({ children }: ConditionalLayoutProps) {
   // Routes that should have no sidebar (landing, login, plan selection, etc.)
   const noSidebarRoutes = [
     "/",
-    "/login", 
+    "/login",
     "/plan-selection",
     "/guided-setup"
   ];
@@ -66,8 +67,9 @@ export function ConditionalLayout({ children }: ConditionalLayoutProps) {
       <SidebarProvider>
         <div className="min-h-screen flex w-full">
           <UserSidebar />
-          <SidebarInset className="flex-1">
-            {children}
+          <SidebarInset className="flex-1 flex flex-col">
+            <UserHeader />
+            <main className="flex-1 p-4">{children}</main>
           </SidebarInset>
         </div>
       </SidebarProvider>
