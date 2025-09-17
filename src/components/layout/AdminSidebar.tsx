@@ -53,6 +53,8 @@ const platformManagementItems = [
   { title: "User Management", url: "/admin/users", icon: Users },
   { title: "Brand Management", url: "/admin/brands", icon: Building },
   { title: "Content Calendar", url: "/admin/content-calendar", icon: Calendar },
+  { title: "A/B Test Manager", url: "/admin/ab-tests", icon: TestTube },
+  { title: "Subscription Plans", url: "/admin/subscription-plans", icon: Database },
 ];
 
 export function AdminSidebar() {
