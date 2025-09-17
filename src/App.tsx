@@ -11,6 +11,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import MSPOnboarding from "./pages/admin/MSPOnboarding";
 import ManageMSPs from "./pages/admin/ManageMSPs";
 import MSPAnalytics from "./pages/admin/MSPAnalytics";
+import UserManagement from "./pages/admin/UserManagement";
+import BrandManagement from "./pages/admin/BrandManagement";
+import ContentCalendarAdmin from "./pages/admin/ContentCalendar";
 import PlanSelection from "./pages/PlanSelection";
 import GuidedSetup from "./pages/GuidedSetup";
 import ContentCalendar from "./pages/ContentCalendar";
@@ -52,6 +55,9 @@ const App = () => (
             <Route path="/admin/msp/onboarding" element={<MSPOnboarding />} />
             <Route path="/admin/msp/manage" element={<ManageMSPs />} />
             <Route path="/admin/msp/analytics" element={<MSPAnalytics />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+            <Route path="/admin/brands" element={<BrandManagement />} />
+            <Route path="/admin/content-calendar" element={<ContentCalendarAdmin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ConditionalLayout>
