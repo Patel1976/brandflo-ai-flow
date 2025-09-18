@@ -55,6 +55,8 @@ const platformManagementItems = [
   { title: "Content Calendar", url: "/admin/content-calendar", icon: Calendar },
   { title: "A/B Test Manager", url: "/admin/ab-tests", icon: TestTube },
   { title: "Subscription Plans", url: "/admin/subscription-plans", icon: Database },
+  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
+  { title: "API Manager", url: "/admin/api-manager", icon: Key },
 ];
 
 export function AdminSidebar() {

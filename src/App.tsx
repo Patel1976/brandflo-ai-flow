@@ -16,6 +16,8 @@ import BrandManagement from "./pages/admin/BrandManagement";
 import ContentCalendarAdmin from "./pages/admin/ContentCalendar";
 import ABTestManager from "./pages/admin/ABTestManager";
 import SubscriptionPlans from "./pages/admin/SubscriptionPlans";
+import AnalyticsAdmin from "./pages/admin/Analytics";
+import APIManager from "./pages/admin/APIManager";
 import PlanSelection from "./pages/PlanSelection";
 import GuidedSetup from "./pages/GuidedSetup";
 import ContentCalendar from "./pages/ContentCalendar";
@@ -62,6 +64,8 @@ const App = () => (
             <Route path="/admin/content-calendar" element={<ContentCalendarAdmin />} />
             <Route path="/admin/ab-tests" element={<ABTestManager />} />
             <Route path="/admin/subscription-plans" element={<SubscriptionPlans />} />
+            <Route path="/admin/analytics" element={<AnalyticsAdmin />} />
+            <Route path="/admin/api-manager" element={<APIManager />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </ConditionalLayout>
