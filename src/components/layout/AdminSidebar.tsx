@@ -49,6 +49,14 @@ const mspManagementItems = [
   { title: "MSP Analytics", url: "/admin/msp/analytics", icon: BarChart3 },
 ];
 
+const platformManagementItems = [
+  { title: "User Management", url: "/admin/users", icon: Users },
+  { title: "Brand Management", url: "/admin/brands", icon: Building },
+  { title: "Content Calendar", url: "/admin/content-calendar", icon: Calendar },
+  { title: "A/B Test Manager", url: "/admin/ab-tests", icon: TestTube },
+  { title: "Subscription Plans", url: "/admin/subscription-plans", icon: Database },
+];
+
 export function AdminSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
@@ -137,6 +145,28 @@ export function AdminSidebar() {
                   )}
                 </Collapsible>
               </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-primary dark:text-primary">Platform Management</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {platformManagementItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={isActive(item.url)}
+                    className="w-full hover:bg-primary-soft dark:hover:bg-primary/20"
+                  >
+                    <NavLink to={item.url} className="flex items-center gap-2">
+                      <item.icon className="w-4 h-4" />
+                      {!isCollapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
